@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  /* Dark warm "ink" — used for text on gold, photo overlays, the intro splash */
+  --color-graphite: #1e1912;
+  /* Bright page background */
+  --color-canvas: #fffdf7;
+  /* Cards and alternating sections */
+  --color-surface: #ffffff;
+  /* Primary text (dark on the bright canvas) */
+  --color-bone: #211c16;
+  /* Vivid honey-gold accent */
+  --color-champagne: #e89400;
+  /* Muted secondary text */
+  --color-slate: #7a7266;
+  /* Hairline borders */
+  --color-line: #ece3d3;
+}
+
+@theme inline {
+  --color-graphite: var(--color-graphite);
+  --color-canvas: var(--color-canvas);
+  --color-surface: var(--color-surface);
+  --color-bone: var(--color-bone);
+  --color-champagne: var(--color-champagne);
+  --color-slate: var(--color-slate);
+  --color-line: var(--color-line);
+  --font-display: var(--font-instrument-serif);
+  --font-sans: var(--font-inter);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background:
+    radial-gradient(1200px 700px at 50% -15%, #fff2d6 0%, transparent 60%),
+    var(--color-canvas);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+}
+
+.tabular {
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-champagne);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--color-champagne);
+  color: var(--color-graphite);
+}

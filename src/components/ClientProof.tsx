@@ -3,7 +3,7 @@ import { site, formatFollowers } from "@/content/site";
 
 export default function ClientProof() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+    <section className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-24">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 className="font-display text-4xl italic sm:text-5xl">Who we&rsquo;ve driven</h2>
         <p className="tabular text-sm text-slate">

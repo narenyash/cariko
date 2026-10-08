@@ -8,14 +8,14 @@ import FleetCard from "@/components/FleetCard";
 
 export default function CategoryTiles() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+    <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-8 sm:py-24">
       <h2 className="font-display text-4xl italic sm:text-5xl">The fleet, by category</h2>
       <p className="mt-3 max-w-xl text-slate">
         Every car we run, grouped by how people book it. Swipe each row &mdash; prices are estimates,
         confirmed on enquiry.
       </p>
 
-      <div className="mt-14 space-y-16">
+      <div className="mt-10 space-y-12 sm:mt-14 sm:space-y-16">
         {categories.map((category) => (
           <CategoryRow key={category.id} category={category} />
         ))}
@@ -68,17 +68,17 @@ function CategoryRow({ category }: { category: Category }) {
             href={`/fleet?category=${category.id}`}
             className="focus-ring ml-1 shrink-0 rounded-full border border-line px-4 py-2 text-sm font-medium text-graphite transition-colors hover:border-champagne hover:text-champagne"
           >
-            View all {inCategory.length} &rarr;
+            All {inCategory.length} &rarr;
           </Link>
         </div>
       </div>
 
       <div
         ref={railRef}
-        className="mt-8 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-mx-4 mt-6 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:mt-8 sm:gap-6 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {cars.map((vehicle) => (
-          <div key={vehicle.id} className="w-[280px] shrink-0 snap-start sm:w-[320px]">
+          <div key={vehicle.id} className="w-[80vw] max-w-[300px] shrink-0 snap-start sm:w-[320px] sm:max-w-none">
             <FleetCard vehicle={vehicle} />
           </div>
         ))}

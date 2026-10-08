@@ -37,8 +37,8 @@ export default function FleetFilters() {
   const activeModes = new Set(searchParams.getAll("mode"));
 
   return (
-    <div className="space-y-4 border-b border-line pb-6">
-      <div className="flex flex-wrap gap-2">
+    <div className="space-y-3 border-b border-line pb-5 sm:space-y-4 sm:pb-6">
+      <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0 [&::-webkit-scrollbar]:hidden">
         <Chip active={!activeCategory} onClick={() => update("category", null)}>
           All categories
         </Chip>
@@ -49,10 +49,10 @@ export default function FleetFilters() {
         ))}
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-slate">Drive</span>
-          <div className="flex flex-wrap gap-2">
+          <span className="w-12 shrink-0 text-sm text-slate sm:w-auto">Drive</span>
+          <div className="-mr-4 flex gap-2 overflow-x-auto pr-4 [scrollbar-width:none] sm:mr-0 sm:flex-wrap sm:pr-0 [&::-webkit-scrollbar]:hidden">
             {MODES.map((m) => (
               <Chip key={m.value} active={activeModes.has(m.value)} onClick={() => toggleMode(m.value)}>
                 {m.label}
@@ -62,11 +62,11 @@ export default function FleetFilters() {
         </div>
 
         <label className="flex items-center gap-2 text-sm text-slate">
-          Brand
+          <span className="w-12 shrink-0 sm:w-auto">Brand</span>
           <select
             value={activeBrand}
             onChange={(e) => update("brand", e.target.value || null)}
-            className="focus-ring border border-line bg-transparent px-3 py-2 text-bone"
+            className="focus-ring min-w-0 flex-1 rounded-full border border-line bg-surface px-4 py-2 text-base text-bone sm:flex-none sm:text-sm"
           >
             <option value="" className="bg-surface text-bone">
               All brands
@@ -97,8 +97,10 @@ function Chip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`focus-ring border px-3 py-1.5 text-sm transition-colors ${
-        active ? "border-champagne text-champagne" : "border-line text-bone/80 hover:border-slate"
+      className={`focus-ring shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm transition-colors ${
+        active
+          ? "border-champagne bg-champagne font-medium text-graphite"
+          : "border-line bg-surface text-bone/80 hover:border-champagne"
       }`}
     >
       {children}

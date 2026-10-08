@@ -27,3 +27,10 @@ export function formatFollowers(n: number) {
   if (n >= 100000) return `${Math.round(n / 1000)}K`;
   return n.toLocaleString("en-IN");
 }
+
+/** Absolute origin for link previews (WhatsApp/Instagram cards). Set NEXT_PUBLIC_SITE_URL once on a custom domain. */
+export function siteUrl() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+  return vercel ? `https://${vercel}` : "http://localhost:3000";
+}

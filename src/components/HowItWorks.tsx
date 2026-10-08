@@ -3,7 +3,7 @@ import { howItWorks } from "@/content/copy";
 export default function HowItWorks() {
   return (
     <section className="border-t border-line bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-28">
         <h2 className="font-display text-4xl italic sm:text-5xl">How it works</h2>
         <div className="mt-12 grid gap-10 sm:grid-cols-3">
           {howItWorks.map((item, i) => (

@@ -24,7 +24,7 @@ export default function VehicleGallery({ name, images }: { name: string; images:
 
   return (
     <div
-      className="focus-ring relative h-[55vh] min-h-[360px] cursor-grab select-none overflow-hidden border border-line active:cursor-grabbing"
+      className="focus-ring relative aspect-[4/3] cursor-grab touch-pan-y select-none overflow-hidden rounded-2xl border border-line bg-surface active:cursor-grabbing lg:aspect-auto lg:h-[60vh] lg:min-h-[420px]"
       role="group"
       aria-label={`${name}, drag or use arrow keys to browse photos`}
       tabIndex={0}
@@ -55,7 +55,7 @@ export default function VehicleGallery({ name, images }: { name: string; images:
       )}
       {isPlaceholder && (
         <p className="pointer-events-none absolute right-4 top-4 rounded-full bg-black/40 px-2 py-1 text-xs text-white/80 backdrop-blur">
-          Placeholder photo — real gallery pending shoot
+          Representative photo
         </p>
       )}
     </div>

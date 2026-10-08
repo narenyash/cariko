@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import { fleet, type Mode } from "@/content/fleet";
+import Link from "next/link";
+import { fleet, hasRealPhoto, type Mode } from "@/content/fleet";
 import type { CategoryId } from "@/content/categories";
 import { getCategory } from "@/content/categories";
 import FleetFilters from "@/components/FleetFilters";
@@ -8,7 +9,7 @@ import Footer from "@/components/Footer";
 import { site } from "@/content/site";
 
 export const metadata = {
-  title: `The fleet — ${site.brand}`,
+  title: "The fleet",
 };
 
 interface Props {
@@ -26,13 +27,13 @@ export default async function FleetPage({ searchParams }: Props) {
     if (brand && v.brand !== brand) return false;
     if (modes.length && !modes.some((m) => v.modes.includes(m))) return false;
     return true;
-  });
+  }).sort((a, b) => Number(hasRealPhoto(b)) - Number(hasRealPhoto(a)));
 
   const activeCategory = category ? getCategory(category) : undefined;
 
   return (
     <>
-      <main className="mx-auto max-w-6xl px-5 pt-28 pb-20 sm:px-8">
+      <main className="mx-auto w-full max-w-6xl px-4 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-20">
         <h1 className="font-display text-4xl italic sm:text-5xl">
           {activeCategory ? activeCategory.label : "The fleet"}
         </h1>
@@ -41,7 +42,7 @@ export default async function FleetPage({ searchParams }: Props) {
         </p>
 
         <Suspense fallback={<div className="mt-8 h-16 border-b border-line" />}>
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             <FleetFilters />
           </div>
         </Suspense>
@@ -51,9 +52,14 @@ export default async function FleetPage({ searchParams }: Props) {
         </p>
 
         {results.length === 0 ? (
-          <p className="mt-16 text-bone/70">No cars match those filters right now. Try clearing one.</p>
+          <div className="mt-12 rounded-2xl border border-dashed border-line p-8 text-center">
+            <p className="text-bone/80">No cars match those filters right now.</p>
+            <Link href="/fleet" className="focus-ring mt-3 inline-block font-medium text-champagne hover:underline">
+              Clear all filters
+            </Link>
+          </div>
         ) : (
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-4 grid gap-5 sm:mt-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {results.map((vehicle, i) => (
               <FleetCard key={vehicle.id} vehicle={vehicle} priority={i === 0} />
             ))}

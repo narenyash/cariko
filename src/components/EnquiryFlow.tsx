@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { displayTitle, type Vehicle, type Mode } from "@/content/fleet";
 import { categoryPricing, formatRange } from "@/content/pricing";
@@ -106,19 +107,39 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
 
   if (sent) {
     return (
-      <div className="mx-auto max-w-xl px-5 py-32 text-center sm:px-8">
-        <p className="text-sm text-champagne">Enquiry ready</p>
-        <h1 className="mt-3 font-display text-4xl italic">Sent to {site.brand} on WhatsApp</h1>
+      <div className="mx-auto w-full max-w-xl px-4 pt-28 pb-20 text-center sm:px-8 sm:pt-36">
+        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-champagne/15 text-2xl text-champagne">
+          &#10003;
+        </span>
+        <h1 className="mt-5 font-display text-4xl italic">Enquiry sent on WhatsApp</h1>
         <p className="mt-4 text-bone/80">
-          Our team will confirm exact pricing, availability for {form.mode === "wedding" ? form.eventDate : form.pickupDate},
-          and next steps by WhatsApp or a call to {form.phone}.
+          Our team will confirm exact pricing, availability for{" "}
+          {(form.mode === "wedding" ? form.eventDate : form.pickupDate) || "your date"}, and next steps by WhatsApp
+          or a call to {form.phone}.
         </p>
+        <p className="mt-2 text-sm text-slate">WhatsApp didn&rsquo;t open? Tap below to try again.</p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <a
+            href={waLink(message)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="focus-ring rounded-full bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white"
+          >
+            Open WhatsApp again
+          </a>
+          <Link
+            href="/fleet"
+            className="focus-ring rounded-full border border-line bg-surface px-6 py-3.5 text-sm font-medium"
+          >
+            Keep browsing the fleet
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-5 pt-28 pb-32 sm:px-8">
+    <div className="mx-auto w-full max-w-6xl px-4 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-32">
       <p className="text-sm text-slate">
         {displayTitle(vehicle)} · {MODE_LABEL[form.mode]}
       </p>
@@ -136,8 +157,10 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
               type="button"
               onClick={() => update("mode", m)}
               aria-pressed={form.mode === m}
-              className={`focus-ring border px-3 py-1.5 text-sm transition-colors ${
-                form.mode === m ? "border-champagne text-champagne" : "border-line text-bone/80 hover:border-slate"
+              className={`focus-ring rounded-full border px-4 py-2 text-sm transition-colors ${
+                form.mode === m
+                  ? "border-champagne bg-champagne font-medium text-graphite"
+                  : "border-line bg-surface text-bone/80 hover:border-champagne"
               }`}
             >
               {MODE_LABEL[m]}
@@ -146,10 +169,16 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
         </div>
       )}
 
-      <ol className="mt-8 flex gap-6 border-b border-line pb-4 text-sm">
+      <ol className="mt-8 grid grid-cols-3 gap-2 text-xs sm:max-w-xl sm:text-sm">
         {STEPS.map((label, i) => (
-          <li key={label} className={i === step ? "text-champagne" : i < step ? "text-bone/60" : "text-slate"}>
-            {i + 1}. {label}
+          <li key={label}>
+            <span
+              className={`block h-1 rounded-full ${i <= step ? "bg-champagne" : "bg-line"}`}
+              aria-hidden
+            />
+            <span className={`mt-2 block ${i === step ? "font-medium text-bone" : "text-slate"}`}>
+              <span className="tabular">{i + 1}.</span> {label}
+            </span>
           </li>
         ))}
       </ol>
@@ -162,7 +191,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                 type="date"
                 value={form.eventDate}
                 onChange={(e) => update("eventDate", e.target.value)}
-                className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none [color-scheme:dark]"
+                className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none [color-scheme:light]"
               />
             </Field>
             <Field label="Venue">
@@ -170,7 +199,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                 value={form.venue}
                 onChange={(e) => update("venue", e.target.value)}
                 placeholder="Venue name and area, Ahmedabad"
-                className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none placeholder:text-slate"
+                className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none placeholder:text-slate"
               />
             </Field>
             <Field label="Cars needed">
@@ -179,7 +208,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                 min={1}
                 value={form.carsNeeded}
                 onChange={(e) => update("carsNeeded", Math.max(1, Number(e.target.value)))}
-                className="focus-ring tabular w-full border border-line bg-transparent px-3 py-2 text-bone outline-none"
+                className="focus-ring tabular w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none"
               />
             </Field>
             {vehicle.decoration !== "not-offered" && (
@@ -206,7 +235,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                 type="date"
                 value={form.pickupDate}
                 onChange={(e) => update("pickupDate", e.target.value)}
-                className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none [color-scheme:dark]"
+                className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none [color-scheme:light]"
               />
             </Field>
             <Field label="Estimated hours">
@@ -214,7 +243,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                 value={form.hours}
                 onChange={(e) => update("hours", e.target.value)}
                 placeholder="e.g. 4 hours, or full day"
-                className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none placeholder:text-slate"
+                className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none placeholder:text-slate"
               />
             </Field>
             <Field label="Route / destination">
@@ -223,7 +252,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                 onChange={(e) => update("route", e.target.value)}
                 rows={3}
                 placeholder="Pickup point, drop point, any stops"
-                className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none placeholder:text-slate"
+                className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none placeholder:text-slate"
               />
             </Field>
             <StepAction disabled={!canAdvanceStep0} onClick={() => setStep(1)}>
@@ -240,7 +269,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                   type="date"
                   value={form.pickupDate}
                   onChange={(e) => update("pickupDate", e.target.value)}
-                  className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none [color-scheme:dark]"
+                  className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none [color-scheme:light]"
                 />
               </Field>
               <Field label="Return date">
@@ -248,7 +277,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                   type="date"
                   value={form.returnDate}
                   onChange={(e) => update("returnDate", e.target.value)}
-                  className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none [color-scheme:dark]"
+                  className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none [color-scheme:light]"
                 />
               </Field>
             </div>
@@ -256,12 +285,12 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
               <input
                 value={form.licenceNumber}
                 onChange={(e) => update("licenceNumber", e.target.value)}
-                className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none"
+                className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none"
               />
             </Field>
             <label className="block">
               <span className="block text-sm text-slate">Driving licence photo (optional now, needed at pickup)</span>
-              <div className="relative mt-1 flex items-center justify-between border border-line px-3 py-2">
+              <div className="relative mt-1 flex items-center justify-between gap-3 rounded-xl border border-dashed border-line bg-surface px-4 py-3">
                 <span className="truncate text-sm text-bone/80">{form.licenceFileName || "No file selected"}</span>
                 <span className="shrink-0 text-sm text-champagne">Choose</span>
                 <input
@@ -295,17 +324,20 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
               <input
                 value={form.fullName}
                 onChange={(e) => update("fullName", e.target.value)}
-                className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none"
+                autoComplete="name"
+                className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none"
               />
             </Field>
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label="Phone">
                 <input
                   type="tel"
+                  inputMode="numeric"
+                  autoComplete="tel"
                   value={form.phone}
                   onChange={(e) => update("phone", e.target.value)}
                   placeholder="10-digit mobile number"
-                  className="focus-ring tabular w-full border border-line bg-transparent px-3 py-2 text-bone outline-none placeholder:text-slate"
+                  className="focus-ring tabular w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none placeholder:text-slate"
                 />
                 {form.phone.length > 0 && form.phone.trim().length < 10 && (
                   <p className="mt-1 text-xs text-champagne">Enter a full 10-digit mobile number.</p>
@@ -316,7 +348,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                   type="email"
                   value={form.email}
                   onChange={(e) => update("email", e.target.value)}
-                  className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none"
+                  className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none"
                 />
               </Field>
             </div>
@@ -325,10 +357,10 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                 value={form.notes}
                 onChange={(e) => update("notes", e.target.value)}
                 rows={3}
-                className="focus-ring w-full border border-line bg-transparent px-3 py-2 text-bone outline-none"
+                className="focus-ring w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-bone outline-none"
               />
             </Field>
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse gap-3 sm:flex-row">
               <StepAction variant="secondary" onClick={() => setStep(0)}>
                 Back
               </StepAction>
@@ -341,7 +373,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
 
         {step === 2 && (
           <div className="space-y-6">
-            <div className="whitespace-pre-line border border-line p-5 text-sm text-bone/80">{tripSummary}</div>
+            <div className="whitespace-pre-line rounded-2xl border border-line bg-surface p-5 text-sm text-bone/80">{tripSummary}</div>
             <div className="border-t border-line pt-4 text-sm">
               <p className="text-bone">{form.fullName}</p>
               <p className="text-bone/70">
@@ -353,7 +385,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
               Estimated {pricing.unit}: <span className="tabular text-champagne">{formatRange(pricing.low, pricing.high)}</span> —
               confirmed exactly by our team, not charged now.
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse gap-3 sm:flex-row">
               <StepAction variant="secondary" onClick={() => setStep(1)}>
                 Back
               </StepAction>
@@ -365,7 +397,7 @@ export default function EnquiryFlow({ vehicle }: { vehicle: Vehicle }) {
                   localStorage.removeItem(storageKey(vehicle.id, form.mode));
                   setSent(true);
                 }}
-                className="focus-ring flex-1 bg-champagne px-6 py-3 text-center text-sm font-medium text-graphite transition-opacity hover:opacity-90"
+                className="focus-ring flex-1 rounded-full bg-[#25D366] px-6 py-3.5 text-center text-sm font-semibold text-white transition hover:brightness-105"
               >
                 Send enquiry on WhatsApp
               </a>
@@ -402,9 +434,9 @@ function StepAction({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`focus-ring px-6 py-3 text-sm transition-opacity disabled:cursor-not-allowed disabled:opacity-40 ${
+      className={`focus-ring w-full rounded-full px-6 py-3.5 text-sm transition disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto ${
         variant === "primary"
-          ? "bg-champagne font-medium text-graphite hover:opacity-90"
+          ? "bg-champagne font-semibold text-graphite hover:brightness-105"
           : "border border-line text-bone hover:border-champagne hover:text-champagne"
       }`}
     >

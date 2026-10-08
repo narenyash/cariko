@@ -61,21 +61,27 @@ export default function FleetCard({ vehicle, priority }: { vehicle: Vehicle; pri
         </div>
 
         <div className="mt-5 flex gap-2">
+          <Link
+            href={`/enquire/${vehicle.id}`}
+            className="focus-ring flex-1 rounded-full bg-champagne px-4 py-2.5 text-center text-sm font-semibold text-graphite transition hover:brightness-105"
+          >
+            Book now
+          </Link>
           <a
             href={waLink(`Hi ${site.brand}, is the ${vehicle.name} available?`)}
             target="_blank"
             rel="noopener noreferrer"
-            className="focus-ring flex-1 rounded-full bg-champagne px-4 py-2.5 text-center text-sm font-semibold text-graphite transition hover:brightness-105"
+            className="focus-ring flex-1 rounded-full border border-line px-4 py-2.5 text-center text-sm font-medium text-bone transition-colors hover:border-[#25D366] hover:text-[#1da851]"
           >
             Enquire on WhatsApp
           </a>
-          <Link
-            href={`/fleet/${vehicle.id}`}
-            className="focus-ring rounded-full border border-line px-4 py-2.5 text-center text-sm font-medium text-bone/80 transition-colors hover:border-champagne hover:text-champagne"
-          >
-            Details
-          </Link>
         </div>
+        <Link
+          href={`/fleet/${vehicle.id}`}
+          className="focus-ring mt-3 self-center text-sm text-slate transition-colors hover:text-champagne"
+        >
+          View details &rarr;
+        </Link>
       </div>
     </article>
   );

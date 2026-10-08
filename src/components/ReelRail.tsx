@@ -28,7 +28,7 @@ export default function ReelRail() {
         onLoad={processEmbeds}
       />
 
-      <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 sm:py-24">
+      <div className="mx-auto max-w-[1600px] px-4 py-14 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <h2 className="font-display text-4xl italic sm:text-5xl">On the road</h2>
           <p className="mt-2 max-w-xl text-slate">
@@ -40,7 +40,7 @@ export default function ReelRail() {
           {reels.map((reel) => (
             <div
               key={reel.id}
-              className="w-[326px] shrink-0 snap-start overflow-hidden rounded-2xl border border-line bg-canvas shadow-sm"
+              className="w-[min(326px,calc(100vw-2rem))] shrink-0 snap-start overflow-hidden rounded-2xl border border-line bg-canvas shadow-sm"
             >
               <blockquote
                 className="instagram-media"

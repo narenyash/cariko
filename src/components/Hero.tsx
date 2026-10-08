@@ -36,13 +36,13 @@ export default function Hero() {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-graphite via-graphite/60 to-graphite/25" />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12 sm:px-8">
-        <p className="text-sm font-medium uppercase tracking-wide text-white/80">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-10 sm:px-8 sm:pb-14">
+        <p className="text-xs font-medium uppercase tracking-wide text-white/80 sm:text-sm">
           {site.city} · {formatFollowers(site.instagramFollowers)} followers on Instagram
         </p>
         <h1
           ref={headlineRef}
-          className="mt-3 max-w-3xl overflow-hidden font-display text-[11vw] italic leading-[0.95] sm:text-6xl md:text-7xl"
+          className="mt-3 max-w-3xl overflow-hidden font-display text-[15vw] italic leading-[0.95] text-white sm:text-6xl md:text-7xl"
         >
           <span className="block overflow-hidden">
             <span data-word className="block">
@@ -50,7 +50,7 @@ export default function Hero() {
             </span>
           </span>
         </h1>
-        <p className="mt-4 max-w-xl text-lg text-white/85">
+        <p className="mt-4 max-w-xl text-base text-white/85 sm:text-lg">
           {site.fleetSize} cars across {site.brandCount} brands — wedding convoys, chauffeur-driven days, and
           self-drive weekends, all out of {site.city}.
         </p>

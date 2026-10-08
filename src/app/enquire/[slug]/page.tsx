@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { fleet, getVehicle } from "@/content/fleet";
-import EnquiryFlow from "@/components/EnquiryFlow";
-import { site } from "@/content/site";
+import BookingFlow from "@/components/BookingFlow";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -16,7 +15,7 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const vehicle = getVehicle(slug);
   if (!vehicle) return {};
-  return { title: `Enquire — ${vehicle.name} — ${site.brand}` };
+  return { title: `Book — ${vehicle.name}` };
 }
 
 export default async function EnquirePage({ params }: Props) {
@@ -26,7 +25,7 @@ export default async function EnquirePage({ params }: Props) {
 
   return (
     <Suspense fallback={null}>
-      <EnquiryFlow vehicle={vehicle} />
+      <BookingFlow preselectedId={vehicle.id} />
     </Suspense>
   );
 }
